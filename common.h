@@ -4,4 +4,4 @@
 extern void print(char* str);
 extern char* input();
 
-#endif
+#endif	/* __COMMON_H__ */
