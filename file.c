@@ -8,6 +8,7 @@ int main(void) {
 	char str[BUFSIZ];
 	int fd1, fd2;
 	int n = read(0, str, BUFSIZ);
+	fcntl(0, F_SETFL, O_NONBLOCK);
 	write(1, str, n);
 //	scanf("%d", &n);
 //	printf("Hello, world(%s)\n", str);
