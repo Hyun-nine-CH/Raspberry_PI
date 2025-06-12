@@ -17,7 +17,7 @@ int listDir(char *arg) {
     struct group *groupname;
     struct tm *t;
     int i = 0, count = 0;
-    char *dirname[255], buf[255], permission[11], mtime[20];
+    char *dirName[255], buf[255], permission[11], mtime[20];
 
     memset(dirName, 0, sizeof(dirName));
     memset(&dirt, 0, sizeof(dirt));
