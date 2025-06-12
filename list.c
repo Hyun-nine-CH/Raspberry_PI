@@ -70,6 +70,39 @@ while((dirt = readdir(pdir)) != NULL) {
        }
        permission[10]='\0';
        if(S_ISDIR(statBuf.st_mode)==1) {
-            if(
+            if(strcmp(dirt->d_name, ",") && strcmp(dirt->d_name, "..")) {
+                dirName[count] = dirt->d_name;
+                count = count + 1;
+            }
        }
+       username=getpwuid(statBuf.st_uid);
+       groupname = getgrgid(statBuf.st_gid);
+       t = localtime(&statBuf.st_mtime);
+
+       sprintf(mtime, "%04d-%02d-%02d %02d:%02d:%02d",
+                       t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+                       t->tm_hour, t->tm_min, t->tm_sec);
+
+                        
+       printf("%s %2d %s %s %9ld %s %s\n", permission, statBuf.st_nlink,
+               username->pw_name, groupname->gr_name,
+               statBuf.st_size, mtime, dirt->d_name);
+    }
+
+    for(i=0; i < count; i++) {
+    if(listDir(dirName[i]) == -1) break;
+    }
+
+    printf("\n");
+    closedir(pdir);
+    chdir("..");
+    return 0;
+}
+int main(int argc, char **argv) {
+    if(argc < 2) {
+        fprintf(stderr, "Usage : %s directory_name.\n", argv[0]);
+        return -1;
+    }
+    listDir(argv[1]);
+    return 0;
 }
