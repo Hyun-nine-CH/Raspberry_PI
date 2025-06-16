@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <linux/input.h>
 
-#define JOY_DEV "/dev/input/event10"
+#define JOY_DEV "/dev/input/event1"
 
 int main() {
     int fd;
@@ -38,9 +38,9 @@ struct input_event {
     __u16 type;
     __u16 code;
     __s32 value;
-}
+};
 
-struct timval {
+struct timeval {
     long tv_sec;
     long tv_usec;
-}
+};
