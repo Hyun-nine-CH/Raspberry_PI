@@ -75,10 +75,16 @@ int main(int argc, char **argv) {
 
                 if((n=read(client_fd[start_index], mesg, sizeof(mesg))) > 0) {
                     printf("Received data : %s", mesg);
-                    write(client_fd[start_index], mesg, n);
-                    close(client_fd[start_index]);
-                    FD_CLR(client_fd[start_index], &readfd);
-                    client_index--;
+
+                    /* chat 구현*/
+                    for(int i = 0; i < client_index; i++)
+                            write(client_fd[i], mesg, n);
+
+//                    write(client_fd[start_index], mesg, n);
+                    
+//                    close(client_fd[start_index]);
+//                    FD_CLR(client_fd[start_index], &readfd);
+//                    client_index--;
                 }
             }
         }
