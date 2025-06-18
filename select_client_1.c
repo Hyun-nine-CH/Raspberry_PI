@@ -48,7 +48,8 @@ int main(int argc, char **argv)
         }
 
         if(FD_ISSET(ssock, &readfd)) { 
-            read(ssock, mesg, BUFSIZ);
+            int n = read(ssock, mesg, BUFSIZ);
+            if(n == 0) break;
             printf("%s", mesg);
         }
     } while (strcmp("msg", "quit"));
