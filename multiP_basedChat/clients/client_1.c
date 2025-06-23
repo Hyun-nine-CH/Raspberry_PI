@@ -20,9 +20,10 @@ int main() {
 
     connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
 
+    echo();
+    curs_set(1);
     initscr();
     cbreak();
-    noecho();
     WINDOW *chat_win = newwin(20, 80, 0, 0);
     WINDOW *input_win = newwin(3, 80, 20, 0);
     scrollok(chat_win, TRUE);

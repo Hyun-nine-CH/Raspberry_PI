@@ -5,9 +5,23 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #define PORT 9999
-// #define BUFSIZ 1024
+#define BUFSIZ 1024
+
+void daemon() {
+    pid_t pid=fork();
+    if(pid<0) exit(1);
+    if(pid>0) exit(0);
+
+    setsid();
+    umask(0);
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+}
 
 void client(int csock) {
     char buf[BUFSIZ];
@@ -23,13 +37,14 @@ void client(int csock) {
 }
 
 int main() {
+    daemon();
     int ssock, csock;
     struct sockaddr_in serv_addr, cli_addr;
     socklen_t cli_len=sizeof(cli_addr);
 
     ssock=socket(AF_INET, SOCK_STREAM, 0);
     if(ssock == -1) {
-        perror("socket");
+//        perror("socket"); 데몬프로세스로 닫아놓음
         exit(1);
     }
 
@@ -39,12 +54,12 @@ int main() {
     serv_addr.sin_port = htons(PORT);
 
     if(bind(ssock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1) {    
-    perror("bind");
+//    perror("bind"); 데몬프로세스로 닫아놓음
     exit(1);
     }
 
     listen(ssock, 5);
-    printf("Server listening on port %d...\n", PORT);
+//    printf("Server listening on port %d...\n", PORT);
 
     while(1) {
         csock=accept(ssock, (struct sockaddr*)&cli_addr, &cli_len);
