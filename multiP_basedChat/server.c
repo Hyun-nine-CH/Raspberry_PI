@@ -6,6 +6,8 @@
 #include <sys/socket.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <syslog.h>
 
 #define PORT 9999
 #define BUFSIZ 1024
@@ -16,11 +18,17 @@ void daemon() {
     if(pid>0) exit(0);
 
     setsid();
+    chdir("/");
     umask(0);
 
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+    int fd = open("/dev/null", O_RDWR);
+    if(fd!=-1) {
+        dup2(fd, STDIN_FILENO);
+        dup2(fd, STDOUT_FILENO);
+        dup2(fd, STDERR_FILENO);
+        if(fd>2) close(fd);
+    }
+
 }
 
 void client(int csock) {
