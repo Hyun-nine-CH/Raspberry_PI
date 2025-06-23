@@ -17,6 +17,7 @@
 int client_pipes[MAX_CLIENTS][2];
 pid_t child_pids[MAX_CLIENTS];
 int client_count = 0;
+int ssock;
 
 void daemonServer() {
     pid_t pid=fork();
@@ -55,17 +56,33 @@ void handle_sigusr1(int sig) {
     }
 }
 
+void handle_sigusr2(int sig) {
+    syslog(LOG_INFO, "자식 프로세스 종료 (PID: %d)", getpid());
+}
+
+void graceful_shutdown(int sig) {
+    syslog(LOG_INFO, "서버 종료 전달");
+    for(int i=0; i<client_count; ++i) {
+        kill(child_pids[i], SIGUSR2);
+    }
+    close(ssock);
+    closelog();
+    exit(0);
+}
+
 int main() {
     daemonServer();
 
     signal(SIGCHLD, handle_sigchld);
     signal(SIGUSR1, handle_sigusr1);
     signal(SIGPIPE, SIG_IGN);
+    signal(SIGUSR2, handle_sigusr2);
+    signal(SIGINT, graceful_shutdown);
+    signal(SIGTERM, graceful_shutdown);
 
     openlog("Server", LOG_PID, LOG_DAEMON);
     syslog(LOG_INFO, "채팅 서버 시작");
 
-    int ssock, csock;
     struct sockaddr_in serv_addr, cli_addr;
     socklen_t cli_len=sizeof(cli_addr);
 
@@ -113,6 +130,7 @@ int main() {
 
         pid_t pid = fork();
         if(pid==0) {
+            signal(SIGUSR2, handle_sigusr2);
             close(ssock);
             close(client_pipes[client_count][0]);
 
@@ -124,6 +142,9 @@ int main() {
 
                 write(client_pipes[client_count][1], buf, n);
                 kill(getppid(), SIGUSR1);
+                
+                int m=read(client_pipes[client_count][0], buf, BUFSIZ);
+                if(m>0) write(csock, buf, m);
             }
 
             close(client_pipes[client_count][1]);
