@@ -21,6 +21,23 @@ void cleanup_and_exit(int sig) {
     exit(0);
 }
 
+void process_command(const char *input) {
+    if(strncmp(input, "/add", 5)==0) {
+        write(sock, input, strlen(input));
+    }else if(strncmp(input, "/join", 6)==0) {
+        write(sock, input, strlen(input));
+    }else if(strncmp(input, "/leave", 6)==0) {
+        write(sock, input, strlen(input));
+    }else if(strncmp(input, "/list", 5)==0) {
+        write(sock, input, strlen(input));
+    }else if(strncmp(input, "/users", 6)==0) {
+        write(sock, input, strlen(input));
+    }else if(strncmp(input, "!whisper", 9)==0) {
+        write(sock, input, strlen(input));
+    }else{
+        write(sock, input, strlen(input));
+}
+
 int main() {
     struct sockaddr_in serv_addr;
     char send_buf[BUFSIZ], recv_buf[BUFSIZ];
@@ -62,11 +79,13 @@ int main() {
     while (1) {
         memset(send_buf, 0, BUFSIZ); 
         mvwgetnstr(input_win, 1, 1, send_buf, BUFSIZ - 1);
-        write(sock, send_buf, strlen(send_buf));
+        process_command(send_buf);
+//        write(sock, send_buf, strlen(send_buf));
 
         memset(recv_buf, 0, BUFSIZ);
         int n=read(sock, recv_buf, BUFSIZ);
         if(n>0) {
+            recv_buf[n]='\n';
             wprintw(chat_win, "Server: %s\n", recv_buf);
             wrefresh(chat_win);
         }
