@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rasp/folder/multiP_basedChat/server.c
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+string.h
+-
+arpa/inet.h
+-
+signal.h
+-
+fcntl.h
+-
+syslog.h
+-
+errno.h
+-
+sys/wait.h
+-
+sys/stat.h
+-
+

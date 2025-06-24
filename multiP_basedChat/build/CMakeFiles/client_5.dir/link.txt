@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/client_5.dir/clients/client_5.c.o -o client_5  -lncurses 
