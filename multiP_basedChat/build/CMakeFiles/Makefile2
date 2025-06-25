@@ -72,9 +72,6 @@ CMAKE_BINARY_DIR = /home/rasp/folder/multiP_basedChat/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/client_5.dir/all
-all: CMakeFiles/client_4.dir/all
-all: CMakeFiles/client_3.dir/all
 all: CMakeFiles/client_1.dir/all
 all: CMakeFiles/client_2.dir/all
 all: CMakeFiles/server.dir/all
@@ -87,95 +84,11 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/client_5.dir/clean
-clean: CMakeFiles/client_4.dir/clean
-clean: CMakeFiles/client_3.dir/clean
 clean: CMakeFiles/client_1.dir/clean
 clean: CMakeFiles/client_2.dir/clean
 clean: CMakeFiles/server.dir/clean
 
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/client_5.dir
-
-# All Build rule for target.
-CMakeFiles/client_5.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rasp/folder/multiP_basedChat/build/CMakeFiles --progress-num=9,10 "Built target client_5"
-.PHONY : CMakeFiles/client_5.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/client_5.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client_5.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 0
-.PHONY : CMakeFiles/client_5.dir/rule
-
-# Convenience name for target.
-client_5: CMakeFiles/client_5.dir/rule
-
-.PHONY : client_5
-
-# clean rule for target.
-CMakeFiles/client_5.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/clean
-.PHONY : CMakeFiles/client_5.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/client_4.dir
-
-# All Build rule for target.
-CMakeFiles/client_4.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rasp/folder/multiP_basedChat/build/CMakeFiles --progress-num=7,8 "Built target client_4"
-.PHONY : CMakeFiles/client_4.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/client_4.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client_4.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 0
-.PHONY : CMakeFiles/client_4.dir/rule
-
-# Convenience name for target.
-client_4: CMakeFiles/client_4.dir/rule
-
-.PHONY : client_4
-
-# clean rule for target.
-CMakeFiles/client_4.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/clean
-.PHONY : CMakeFiles/client_4.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/client_3.dir
-
-# All Build rule for target.
-CMakeFiles/client_3.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rasp/folder/multiP_basedChat/build/CMakeFiles --progress-num=5,6 "Built target client_3"
-.PHONY : CMakeFiles/client_3.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/client_3.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client_3.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rasp/folder/multiP_basedChat/build/CMakeFiles 0
-.PHONY : CMakeFiles/client_3.dir/rule
-
-# Convenience name for target.
-client_3: CMakeFiles/client_3.dir/rule
-
-.PHONY : client_3
-
-# clean rule for target.
-CMakeFiles/client_3.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/clean
-.PHONY : CMakeFiles/client_3.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/client_1.dir
@@ -238,7 +151,7 @@ CMakeFiles/client_2.dir/clean:
 CMakeFiles/server.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rasp/folder/multiP_basedChat/build/CMakeFiles --progress-num=11,12 "Built target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rasp/folder/multiP_basedChat/build/CMakeFiles --progress-num=5,6 "Built target server"
 .PHONY : CMakeFiles/server.dir/all
 
 # Build rule for subdir invocation for target.

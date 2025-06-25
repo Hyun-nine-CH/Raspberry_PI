@@ -130,45 +130,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named client_5
-
-# Build rule for target.
-client_5: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_5
-.PHONY : client_5
-
-# fast build rule for target.
-client_5/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/build
-.PHONY : client_5/fast
-
-#=============================================================================
-# Target rules for targets named client_4
-
-# Build rule for target.
-client_4: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_4
-.PHONY : client_4
-
-# fast build rule for target.
-client_4/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/build
-.PHONY : client_4/fast
-
-#=============================================================================
-# Target rules for targets named client_3
-
-# Build rule for target.
-client_3: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_3
-.PHONY : client_3
-
-# fast build rule for target.
-client_3/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/build
-.PHONY : client_3/fast
-
-#=============================================================================
 # Target rules for targets named client_1
 
 # Build rule for target.
@@ -261,87 +222,6 @@ clients/client_2.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_2.dir/build.make CMakeFiles/client_2.dir/clients/client_2.c.s
 .PHONY : clients/client_2.c.s
 
-clients/client_3.o: clients/client_3.c.o
-
-.PHONY : clients/client_3.o
-
-# target to build an object file
-clients/client_3.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/clients/client_3.c.o
-.PHONY : clients/client_3.c.o
-
-clients/client_3.i: clients/client_3.c.i
-
-.PHONY : clients/client_3.i
-
-# target to preprocess a source file
-clients/client_3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/clients/client_3.c.i
-.PHONY : clients/client_3.c.i
-
-clients/client_3.s: clients/client_3.c.s
-
-.PHONY : clients/client_3.s
-
-# target to generate assembly for a file
-clients/client_3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_3.dir/build.make CMakeFiles/client_3.dir/clients/client_3.c.s
-.PHONY : clients/client_3.c.s
-
-clients/client_4.o: clients/client_4.c.o
-
-.PHONY : clients/client_4.o
-
-# target to build an object file
-clients/client_4.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/clients/client_4.c.o
-.PHONY : clients/client_4.c.o
-
-clients/client_4.i: clients/client_4.c.i
-
-.PHONY : clients/client_4.i
-
-# target to preprocess a source file
-clients/client_4.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/clients/client_4.c.i
-.PHONY : clients/client_4.c.i
-
-clients/client_4.s: clients/client_4.c.s
-
-.PHONY : clients/client_4.s
-
-# target to generate assembly for a file
-clients/client_4.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_4.dir/build.make CMakeFiles/client_4.dir/clients/client_4.c.s
-.PHONY : clients/client_4.c.s
-
-clients/client_5.o: clients/client_5.c.o
-
-.PHONY : clients/client_5.o
-
-# target to build an object file
-clients/client_5.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/clients/client_5.c.o
-.PHONY : clients/client_5.c.o
-
-clients/client_5.i: clients/client_5.c.i
-
-.PHONY : clients/client_5.i
-
-# target to preprocess a source file
-clients/client_5.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/clients/client_5.c.i
-.PHONY : clients/client_5.c.i
-
-clients/client_5.s: clients/client_5.c.s
-
-.PHONY : clients/client_5.s
-
-# target to generate assembly for a file
-clients/client_5.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client_5.dir/build.make CMakeFiles/client_5.dir/clients/client_5.c.s
-.PHONY : clients/client_5.c.s
-
 server.o: server.c.o
 
 .PHONY : server.o
@@ -379,9 +259,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... client_1"
 	@echo "... client_2"
-	@echo "... client_3"
-	@echo "... client_4"
-	@echo "... client_5"
 	@echo "... server"
 	@echo "... clients/client_1.o"
 	@echo "... clients/client_1.i"
@@ -389,15 +266,6 @@ help:
 	@echo "... clients/client_2.o"
 	@echo "... clients/client_2.i"
 	@echo "... clients/client_2.s"
-	@echo "... clients/client_3.o"
-	@echo "... clients/client_3.i"
-	@echo "... clients/client_3.s"
-	@echo "... clients/client_4.o"
-	@echo "... clients/client_4.i"
-	@echo "... clients/client_4.s"
-	@echo "... clients/client_5.o"
-	@echo "... clients/client_5.i"
-	@echo "... clients/client_5.s"
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"

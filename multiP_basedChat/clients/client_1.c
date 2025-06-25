@@ -2,19 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <ncurses.h>
 #include <arpa/inet.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <errno.h>
-
+ 
 #define PORT 9999
-//#define BUFSIZ 1024
 #define MAX_ROOM_NAME 32
 #define MAX_NICKNAME 32
+#define MAX_MSG 1024
+#define MAX_CLIENTS 5
 
 int sock;
-WINDOW *chat_win, *input_win;
 
 typedef struct {
     pid_t pid;
@@ -25,20 +24,23 @@ typedef struct {
 ClientInfo self_info = {0, "", ""};
 
 void cleanup_and_exit(int sig) {
-    endwin();
     close(sock);
     printf("\n클라이언트 종료.\n");
     exit(0);
 }
 
 void process_command(const char *input) {
-    // 명령어이든 일반 메시지이든 모두 서버로 전송
-    write(sock, input, strlen(input));
+    ssize_t n = write(sock, input, strlen(input));
+    if (n > 0) {
+        printf("[전송됨] %s\n", input);
+    } else {
+        fprintf(stderr, "서버로 메시지 전송 실패: %s\n", strerror(errno));
+    }
 }
 
 int main() {
     struct sockaddr_in serv_addr;
-    char send_buf[BUFSIZ], recv_buf[BUFSIZ];
+    char send_buf[MAX_MSG], recv_buf[MAX_MSG];
 
     signal(SIGINT, cleanup_and_exit);
 
@@ -48,7 +50,7 @@ int main() {
         exit(1);
     }
 
-    fcntl(sock, F_SETFL, O_NONBLOCK); // 비차단 소켓
+    fcntl(sock, F_SETFL, O_NONBLOCK);
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
@@ -58,47 +60,35 @@ int main() {
         if (errno != EINPROGRESS) {
             perror("connect");
             exit(1);
+        } else {
+            printf("[정보] 서버에 비동기 연결 시도 중 (EINPROGRESS)\n");
         }
     }
 
-    initscr();
-    cbreak();
-    echo();
-    curs_set(1);
-
-    chat_win = newwin(20, 80, 0, 0);
-    input_win = newwin(3, 80, 20, 0);
-    scrollok(chat_win, TRUE);
-    box(chat_win, 0, 0);
-    box(input_win, 0, 0);
-    wrefresh(chat_win);
-    wrefresh(input_win);
+    printf("채팅 클라이언트 시작 (종료: Ctrl+C)\n");
 
     while (1) {
-        memset(send_buf, 0, BUFSIZ);
-        mvwgetnstr(input_win, 1, 1, send_buf, BUFSIZ - 1);
-        process_command(send_buf);
+        memset(send_buf, 0, MAX_MSG);
+        printf("입력 > ");
+        fflush(stdout);
+        if (fgets(send_buf, MAX_MSG, stdin) == NULL) break;
 
-        memset(recv_buf, 0, BUFSIZ);
-        int n = read(sock, recv_buf, BUFSIZ);
+        send_buf[strcspn(send_buf, "\n")] = 0;
+        if (strlen(send_buf) > 0) process_command(send_buf);
+
+        memset(recv_buf, 0, MAX_MSG);
+        int n = read(sock, recv_buf, MAX_MSG);
         if (n > 0) {
             recv_buf[n] = '\0';
-            wprintw(chat_win, "%s\n", recv_buf);
-            wrefresh(chat_win);
+            printf("서버: %s\n", recv_buf);
         } else if (n == 0) {
-            wprintw(chat_win, "서버와 연결 종료됨\n");
-            wrefresh(chat_win);
+            printf("서버와 연결 종료됨\n");
             break;
         } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
             perror("read");
         }
-
-        werase(input_win);
-        box(input_win, 0, 0);
-        wrefresh(input_win);
     }
 
     cleanup_and_exit(0);
     return 0;
 }
-

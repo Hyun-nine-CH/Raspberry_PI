@@ -15,8 +15,6 @@ string.h
 -
 unistd.h
 -
-ncurses.h
--
 arpa/inet.h
 -
 signal.h

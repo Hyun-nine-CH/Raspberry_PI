@@ -1,8 +1,5 @@
-/home/rasp/folder/multiP_basedChat/build/CMakeFiles/client_5.dir
 /home/rasp/folder/multiP_basedChat/build/CMakeFiles/rebuild_cache.dir
-/home/rasp/folder/multiP_basedChat/build/CMakeFiles/client_4.dir
 /home/rasp/folder/multiP_basedChat/build/CMakeFiles/edit_cache.dir
-/home/rasp/folder/multiP_basedChat/build/CMakeFiles/client_3.dir
 /home/rasp/folder/multiP_basedChat/build/CMakeFiles/client_1.dir
 /home/rasp/folder/multiP_basedChat/build/CMakeFiles/client_2.dir
 /home/rasp/folder/multiP_basedChat/build/CMakeFiles/server.dir

@@ -281,4 +281,3 @@ int main() {
     closelog();
     return 0;
 }
-
