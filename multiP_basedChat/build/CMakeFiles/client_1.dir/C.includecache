@@ -9,18 +9,20 @@
 /home/rasp/folder/multiP_basedChat/clients/client_1.c
 stdio.h
 -
-stdlib.h
--
 string.h
 -
 unistd.h
 -
-arpa/inet.h
+stdlib.h
 -
 signal.h
 -
-fcntl.h
+sys/wait.h
 -
-errno.h
+sys/ioctl.h
+-
+sys/socket.h
+-
+arpa/inet.h
 -
 

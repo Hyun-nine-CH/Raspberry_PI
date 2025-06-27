@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/client_1.dir/clients/client_1.c.o -o client_1  -lncurses 
+/usr/bin/cc CMakeFiles/client_1.dir/clients/client_1.c.o -o client_1 

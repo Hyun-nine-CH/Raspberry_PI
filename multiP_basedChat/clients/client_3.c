@@ -1,100 +1,106 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <ncurses.h>
-#include <arpa/inet.h>
+#include <unistd.h> 			// For STDOUT_FILENO
+#include <stdlib.h>
 #include <signal.h>
-#include <fcntl.h>
-#include <errno.h>
+#include <sys/wait.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
-#define PORT 9999
-#define MAX_ROOM_NAME 32
-#define MAX_NICKNAME 32
+#define COLOR_RED     "\x1b[31m"
+#define COLOR_GREEN   "\x1b[32m"
+#define COLOR_YELLOW  "\x1b[33m"
+#define COLOR_BLUE    "\x1b[34m"
+#define COLOR_MAGENTA "\x1b[35m"
+#define COLOR_CYAN    "\x1b[36m"
+#define COLOR_RESET   "\x1b[0m"
 
-int sock;
-WINDOW *chat_win, *input_win;
+typedef struct {
+	int type;
+	char msg[BUFSIZ-4];
+} data_t;
 
-void cleanup_and_exit(int sig) {
-    endwin();
-    close(sock);
-    printf("\n클라이언트 종료.\n");
-    exit(0);
+static int g_pfd[2], g_sockfd, g_cont = 1;
+
+// 위의 선언없이 extern inline void clrscr(void)로 선언
+inline void clrscr(void);		// C99, C11에 대응하기 위해서 사용
+void clrscr(void)				
+{
+    write(1, "\033[1;1H\033[2J", 10);		// ANSI escape 코드로 화면 지우기
 }
 
-void setup_windows() {
-    initscr();
-    cbreak();
-    echo();
-    curs_set(1);
-
-    chat_win = newwin(20, 80, 0, 0);
-    input_win = newwin(3, 80, 20, 0);
-    scrollok(chat_win, TRUE);
-    box(chat_win, 0, 0);
-    box(input_win, 0, 0);
-    wrefresh(chat_win);
-    wrefresh(input_win);
+void sigHandler(int signo)
+{
+	if(signo == SIGUSR1) { 
+		char buf[BUFSIZ];
+		int n = read(g_pfd[0], buf, BUFSIZ);
+		write(g_sockfd, buf, n);
+	} else if(signo == SIGCHLD) {
+		g_cont = 0;
+		printf("Connection is lost\n");
+	}
 }
 
-void handle_input_output() {
-    char send_buf[BUFSIZ], recv_buf[BUFSIZ];
+int main(int argc, char** argv)
+{ 
+	struct sockaddr_in servaddr;
+	int pid;
+	char buf[BUFSIZ]; 
 
-    while (1) {
-        memset(send_buf, 0, BUFSIZ);
-        mvwgetnstr(input_win, 1, 1, send_buf, BUFSIZ - 1);
+	clrscr();
 
-        // 입력값 끝에 개행 추가해서 서버가 개별 명령으로 인식하도록 처리
-        strncat(send_buf, "\n", BUFSIZ - strlen(send_buf) - 1);
-        write(sock, send_buf, strlen(send_buf));
+	if(argc < 3) {
+		fprintf(stderr, "usage : %s IP_ADDR PORT_NO\n", argv[0]);
+		return -1;
+	}
 
-        memset(recv_buf, 0, BUFSIZ);
-        int n = read(sock, recv_buf, BUFSIZ - 1);
-        if (n > 0) {
-            recv_buf[n] = '\0';
-            wprintw(chat_win, "%s", recv_buf);
-            wrefresh(chat_win);
-        } else if (n == 0) {
-            wprintw(chat_win, "서버와 연결 종료됨\n");
-            wrefresh(chat_win);
-            break;
-        } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
-            perror("read");
-        }
+	g_sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if(g_sockfd < 0) {
+		perror("socket");
+		return -1;
+	}
 
-        werase(input_win);
-        box(input_win, 0, 0);
-        wrefresh(input_win);
-    }
+	memset(&servaddr, 0, sizeof(servaddr));
+	servaddr.sin_family = AF_INET;
+	inet_pton(AF_INET, argv[1], &(servaddr.sin_addr.s_addr));
+	servaddr.sin_port = htons(atoi(argv[2]));
+	connect(g_sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr));
+
+	pipe(g_pfd);
+	if((pid = fork()) < 0) {
+		perror("fork( )");
+	} else if (pid == 0) {
+		signal(SIGCHLD, sigHandler);
+		close(g_pfd[0]);
+		do { 
+			memset(buf, 0, BUFSIZ); 
+			printf(COLOR_BLUE "\r> " COLOR_RESET);
+			fflush(NULL);
+			fgets(buf, BUFSIZ, stdin);
+			write(g_pfd[1], buf, strlen(buf)+1);
+			kill(getppid( ), SIGUSR1);
+		} while (strcmp(buf, "quit") && g_cont);
+		close(g_pfd[1]);
+	} else { 			// pid > 0
+		signal(SIGUSR1, sigHandler);
+		signal(SIGCHLD, sigHandler);
+		close(g_pfd[1]);
+		while(g_cont) { 
+			memset(buf, 0, BUFSIZ);
+			int n = read(g_sockfd, buf, BUFSIZ);
+			if(n <= 0) break;
+			printf(COLOR_GREEN "\r%s" COLOR_RESET, buf);
+			printf(COLOR_BLUE "\r> " COLOR_RESET);
+			fflush(NULL);
+		}
+		close(g_pfd[0]);
+		kill(pid, SIGCHLD);
+		wait(NULL);
+	}
+
+	close(g_sockfd);
+
+	return 0;
 }
 
-int main() {
-    struct sockaddr_in serv_addr;
-
-    signal(SIGINT, cleanup_and_exit);
-    signal(SIGUSR2, cleanup_and_exit);  // 서버 종료 시 우아하게 종료
-
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {
-        perror("socket");
-        exit(1);
-    }
-
-    fcntl(sock, F_SETFL, O_NONBLOCK);
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
-    inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr);
-
-    if (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-        if (errno != EINPROGRESS) {
-            perror("connect");
-            exit(1);
-        }
-    }
-
-    setup_windows();
-    handle_input_output();
-    cleanup_and_exit(0);
-    return 0;
-}

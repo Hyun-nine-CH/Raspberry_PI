@@ -6,5 +6,5 @@ C_DEFINES = -D_GNU_SOURCE
 
 C_INCLUDES = 
 
-C_FLAGS = -std=c99
+C_FLAGS = -std=gnu99
 
