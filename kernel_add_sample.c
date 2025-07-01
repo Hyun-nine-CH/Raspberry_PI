@@ -4,8 +4,8 @@
 #include <linux/mm_types.h>                /* pgprot_t 정의를 위해 추가 */     
 #include <asm/uaccess.h>
 #include <asm/errno.h>
-#include <sys/syscall.h>                     /* syscall() 함수 정의 */
-#include <unistd.h>                     /* syscall 번호를 포함 */
+//#include <sys/syscall.h>                     /* syscall() 함수 정의 */
+//#include <unistd.h>                     /* syscall 번호를 포함 */
 
 SYSCALL_DEFINE3(add, int, a, int, b, int __user *, res) 
 {                    
