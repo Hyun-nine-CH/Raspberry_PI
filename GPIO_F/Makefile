@@ -1,4 +1,4 @@
-obj-m := gpiotimer_module.o
+obj-m := gpiosignal_module.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 

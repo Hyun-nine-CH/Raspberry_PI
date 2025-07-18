@@ -1,0 +1,1 @@
+savedcmd_/home/rasp/folder/GPIO_F/gpiosignal_module.mod := printf '%s\n'   gpiosignal_module.o | awk '!x[$$0]++ { print("/home/rasp/folder/GPIO_F/"$$0) }' > /home/rasp/folder/GPIO_F/gpiosignal_module.mod
