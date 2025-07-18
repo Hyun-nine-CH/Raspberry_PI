@@ -1,0 +1,1 @@
+savedcmd_/home/rasp/folder/hello_module.ko := aarch64-linux-gnu-ld -r -EL  -maarch64elf -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/rasp/folder/hello_module.ko /home/rasp/folder/hello_module.o /home/rasp/folder/hello_module.mod.o /home/rasp/folder/.module-common.o

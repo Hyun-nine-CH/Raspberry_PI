@@ -1,0 +1,1 @@
+savedcmd_/home/rasp/folder/GPIO_F/gpiotimer_module.mod := printf '%s\n'   gpiotimer_module.o | awk '!x[$$0]++ { print("/home/rasp/folder/GPIO_F/"$$0) }' > /home/rasp/folder/GPIO_F/gpiotimer_module.mod

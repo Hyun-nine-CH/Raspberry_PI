@@ -16,7 +16,7 @@ SYSCALL_DEFINE3(add, int, a, int, b, int __user *, res)
     if(err == -EFAULT) return err;
    
     ret = a + b;
-    printk(KERN_INFO "%d + %d = %d from Linux Kernel\n", a, b, *res);
+    printk(KERN_INFO "%d + %d = %d from Linux Kernel\n", a, b, ret);
     put_user(ret, res);                     /* 유저 영역으로 값을 보낸다. */
 
     return err;

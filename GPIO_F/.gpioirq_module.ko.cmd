@@ -1,0 +1,1 @@
+savedcmd_/home/rasp/folder/GPIO_F/gpioirq_module.ko := aarch64-linux-gnu-ld -r -EL  -maarch64elf -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/rasp/folder/GPIO_F/gpioirq_module.ko /home/rasp/folder/GPIO_F/gpioirq_module.o /home/rasp/folder/GPIO_F/gpioirq_module.mod.o /home/rasp/folder/GPIO_F/.module-common.o
